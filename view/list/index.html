@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todolist</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      href="style.css"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <style>
+      .choice a {
+        color: black;
+        text-decoration: none;
+      }
+
+      .box {
+        height: 180px;
+      }
+
+      .icon {
+        background-color: red;
+        scale: 5;
+      }
+
+      .menu {
+        left: 290px;
+        bottom: 10px;
+      }
+
+      .list-menu {
+        position: relative;
+        top: 10px;
+        background-color: rgb(238, 238, 238);
+        border-radius: 10%;
+        
+      }
+      
+      .menu .list-menu a {
+        text-decoration: none;
+        color: rgb(102, 102, 102);
+        padding: 5px;
+        font-size: 15px;
+      }
+
+      .dot-menu {
+        top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand text-light" href=""> ToDo-Web </a>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="head d-flex flex-row-reverse">
+        <a href="/add" class="btn btn-primary pl" style="margin-top: 20px"
+          >Tambahkan List</a
+        >
+      </div>
+      <div class="choice bs-dark" style="margin-top: 50px">
+        <a href="/" class="fs-2 fw-semibold border-bottom border-dark">To do</a>
+        <a href="../complete" class="fs-2 fw-normal" style="padding-left: 20px"
+          >Complete</a
+        >
+      </div>
+      {{range .list}}
+      <!-- <a href="/list/edit?id={{ .Id}}" class=""
+        >Edit</a
+      > -->
+      <div class="box db border w-25 p-2 rounded-3 mt-4 position-relative">
+      <p class="fs-4">{{ .Task}}</p>
+      <p id="date">{{ .Deadline}}</p>
+      <div class="menu position-relative">
+        <div class="list-menu w-25 position-relative ">
+          <a href="/edit?id={{ .Id}}" class="mb-0 ">Edit</a>
+          <a href="/delete?id={{ .Id}}" class="mb-0">Delete</a>
+        </div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="dot-menu bi bi-three-dots-vertical dotMenu position-relative"
+          viewBox="0 0 16 16 "
+          onclick="showOption()"
+        >
+          <path
+            d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"
+          />
+        </svg>
+      </div>
+      {{end}}
+    </div>
+  </body>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    const [open, setOpen] = useState(false);
+
+    const showOption = () => {
+      setOpen (!open)
+    }
+  </script>
+</html>
