@@ -41,3 +41,8 @@ func Create(todolist entitites.List) bool {
 
 	return lastInsertId > 0
 }
+
+func Delete(id int) error {
+	_, err := config.DB.Exec("DELETE FROM todolist WHERE id =?", id)
+	return err
+}

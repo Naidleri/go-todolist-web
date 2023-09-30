@@ -5,6 +5,7 @@ import (
 	"go-todolist-web/models/listmodels"
 	"html/template"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -44,12 +45,29 @@ func Add(w http.ResponseWriter, r *http.Request) {
 		}
 		todolist.Deadline = deadline
 
-		if time.Now().After(deadline) {
-			todolist.Completed = false
-		} else {
-			todolist.Completed = true
+		// Tambahkan kode untuk memeriksa apakah todolist.Task kosong
+		if todolist.Task == "" {
+			http.Error(w, "Task tidak boleh kosong", http.StatusBadRequest)
+			return
 		}
-		listmodels.Create(todolist)
+
+		// Tambahkan kode untuk memeriksa apakah todolist.Deadline valid
+		if !todolist.Deadline.After(time.Now()) {
+			http.Error(w, "Deadline harus di masa depan", http.StatusBadRequest)
+			return
+		}
+
+		// Tambahkan kode untuk set status todolist menjadi false
+		todolist.Completed = false
+
+		// Tambahkan kode untuk memanggil fungsi Create()
+		if !listmodels.Create(todolist) {
+			http.Error(w, "Gagal menambahkan todolist", http.StatusInternalServerError)
+			return
+		}
+
+		// Tambahkan kode untuk redirect ke halaman("/")
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 }
 
@@ -58,5 +76,14 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 }
 
 func Delete(w http.ResponseWriter, r *http.Request) {
+	idString := r.URL.Query().Get("id")
+	id, err := strconv.Atoi(idString)
+	if err != nil {
+		panic(err)
+	}
 
+	if err := listmodels.Delete(id); err != nil {
+		panic(err)
+	}
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
