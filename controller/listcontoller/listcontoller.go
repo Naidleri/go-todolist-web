@@ -72,6 +72,42 @@ func Add(w http.ResponseWriter, r *http.Request) {
 }
 
 func Edit(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+		temp, err := template.ParseFiles("view/list/edit.html")
+		if err != nil {
+			panic(err)
+		}
+
+		idString := r.URL.Query().Get("id")
+		id, err := strconv.Atoi(idString)
+		if err != nil {
+			panic(err)
+		}
+
+		todolist := listmodels.Detail(id)
+		data := map[string]any{
+			"todolist": todolist,
+		}
+
+		temp.Execute(w, data)
+	}
+
+	if r.Method == "POST" {
+		var todolist entitites.List
+		idString := r.FormValue("id")
+		id, err := strconv.Atoi(idString)
+		if err != nil {
+			panic(err)
+		}
+
+		todolist.Task = r.FormValue("edit")
+
+		if !listmodels.Update(id, todolist) {
+			http.Error(w, "Gagal mengedit todolist", http.StatusInternalServerError)
+			return
+		}
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
 
 }
 
