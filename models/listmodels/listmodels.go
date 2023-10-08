@@ -42,6 +42,28 @@ func Create(todolist entitites.List) bool {
 	return lastInsertId > 0
 }
 
+func Detail(id int) entitites.List {
+	rows := config.DB.QueryRow("SELECT id, task from todolist WHERE id =?", id)
+
+	var list entitites.List
+	if err := rows.Scan(&list.Id, &list.Task); err != nil {
+		panic(err.Error())
+	}
+	return list
+}
+
+func Update(id int, list entitites.List) bool {
+	query, err := config.DB.Exec("UPDATE todolist SET task=? WHERE id=?", list.Task, list.Id)
+	if err != nil {
+		panic(err)
+	}
+	result, err := query.RowsAffected()
+	if err != nil {
+		panic(err)
+	}
+	return result > 0
+}
+
 func Delete(id int) error {
 	_, err := config.DB.Exec("DELETE FROM todolist WHERE id =?", id)
 	return err
