@@ -61,7 +61,7 @@ func Add(w http.ResponseWriter, r *http.Request) {
 		todolist.Completed = false
 
 		// Tambahkan kode untuk memanggil fungsi Create()
-		if !listmodels.Create(todolist) {
+		if !listmodels.Add(todolist) {
 			http.Error(w, "Gagal menambahkan todolist", http.StatusInternalServerError)
 			return
 		}
