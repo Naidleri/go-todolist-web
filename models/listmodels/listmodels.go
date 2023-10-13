@@ -27,19 +27,19 @@ func GetAll() []entitites.List {
 
 }
 
-func Create(todolist entitites.List) bool {
-	result, err := config.DB.Exec("INSERT INTO todolist (task,deadline,completed) VALUE (?,?,?)", todolist.Task, todolist.Deadline, todolist.Completed)
+func Add(todolist entitites.List) bool {
+	result, err := config.DB.Exec("INSERT INTO todolist (task,deadline) VALUE (?,?)", todolist.Task,todolist.Deadline)
 
 	if err != nil {
 		panic(err)
 	}
 
-	lastInsertId, err := result.LastInsertId()
-	if err != nil {
+	rowsAffected,err:=result.RowsAffected()
+	if err != nil{
 		panic(err)
 	}
 
-	return lastInsertId > 0
+	return rowsAffected > 0
 }
 
 func Detail(id int) entitites.List {
