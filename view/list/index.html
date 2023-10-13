@@ -73,13 +73,13 @@
       <!-- <a href="/list/edit?id={{ .Id}}" class=""
         >Edit</a
       > -->
-      <div class="box db border w-25 p-2 rounded-3 mt-4 position-relative">
+      <div class="box db border w-75  p-2 rounded-3 mt-4 mb-4 ">
       <p class="fs-4">{{ .Task}}</p>
       <p id="date">{{ .Deadline}}</p>
       <div class="menu position-relative">
         <div class="list-menu w-25 position-relative ">
-          <a href="/edit?id={{ .Id}}" class="mb-0 ">Edit</a>
-          <a href="/delete?id={{ .Id}}" class="mb-0">Delete</a>
+          <a href="/edit?id={{ .Id}}" class="mb-0  ">Edit</a>
+          <a href="/delete?id={{ .Id}}" class="mb-0" confirm = "">Delete</a>
         </div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
