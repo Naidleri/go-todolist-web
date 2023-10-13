@@ -33,20 +33,27 @@
           <li class="breadcrumb-item active" aria-current="page">Add</li>
         </ol>
       </nav>
-      <h2 class="mt-3">Tambahkan To Do List kamu</h2>
-      <input type="text" class="form-control w-50" name="todolist" />
-      <div class="date mt-3 mb-3">
-        <label for="datePicker" class="form-label"
-          >Pilih tanggal deadline :</label
-        >
+      <form action="/add" method="POST">
+        <h2 class="mt-3">Tambahkan To Do List kamu</h2>
         <input
-          type="date"
-          id="datePicker"
-          name="deadline"
-          class="form-control w-25"
+          type="text"
+          class="form-control w-50"
+          name="todolist"
+          autocomplete="off"
         />
-      </div>
-      <button class="btn btn-primary mt-2">Tambah</button>
+        <div class="date mt-3 mb-3">
+          <label for="datePicker" class="form-label"
+            >Pilih tanggal deadline :</label
+          >
+          <input
+            type="date"
+            id="datePicker"
+            name="deadline"
+            class="form-control w-25"
+          />
+          <button type="submit" class="btn btn-primary">Tambahkan</button>
+        </div>
+      </form>
     </div>
   </body>
   <script
