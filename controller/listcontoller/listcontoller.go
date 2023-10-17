@@ -93,16 +93,24 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method == "POST" {
-		var todolist entitites.List
 		idString := r.FormValue("id")
 		id, err := strconv.Atoi(idString)
 		if err != nil {
-			panic(err)
+			http.Error(w, "Id tidak sah" ,http.StatusBadRequest)
 		}
 
-		todolist.Task = r.FormValue("edit")
+		uptadeTodolist := entitites.List{
+			Task: r.FormValue("edit"),
+		}
 
-		if !listmodels.Update(id, todolist) {
+		// deadlineStr := r.FormValue("deadline")
+		// deadline, err := time.Parse("2006-01-02 15:04:05", deadlineStr)
+		// if err != nil {
+		// 	panic(err)
+		// }
+		// todolist.Deadline = deadline
+
+		if !listmodels.Update(id, uptadeTodolist) {
 			http.Error(w, "Gagal mengedit todolist", http.StatusInternalServerError)
 			return
 		}
