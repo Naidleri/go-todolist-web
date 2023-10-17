@@ -28,14 +28,14 @@ func GetAll() []entitites.List {
 }
 
 func Add(todolist entitites.List) bool {
-	result, err := config.DB.Exec("INSERT INTO todolist (task,deadline) VALUE (?,?)", todolist.Task,todolist.Deadline)
+	result, err := config.DB.Exec("INSERT INTO todolist (task,deadline) VALUE (?,?)", todolist.Task, todolist.Deadline)
 
 	if err != nil {
 		panic(err)
 	}
 
-	rowsAffected,err:=result.RowsAffected()
-	if err != nil{
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
 		panic(err)
 	}
 
@@ -43,7 +43,7 @@ func Add(todolist entitites.List) bool {
 }
 
 func Detail(id int) entitites.List {
-	rows := config.DB.QueryRow("SELECT id, task from todolist WHERE id =?", id)
+	rows := config.DB.QueryRow("SELECT id,task from todolist WHERE id =?", id)
 
 	var list entitites.List
 	if err := rows.Scan(&list.Id, &list.Task); err != nil {
@@ -53,15 +53,15 @@ func Detail(id int) entitites.List {
 }
 
 func Update(id int, list entitites.List) bool {
-	query, err := config.DB.Exec("UPDATE todolist SET task=? WHERE id=?", list.Task, list.Id)
+	result, err := config.DB.Exec("UPDATE todolist SET task=? WHERE id=?", list.Task, list.Id)
 	if err != nil {
 		panic(err)
 	}
-	result, err := query.RowsAffected()
+	rowsAffected, err := result.RowsAffected()
 	if err != nil {
 		panic(err)
 	}
-	return result > 0
+	return rowsAffected > 0
 }
 
 func Delete(id int) error {
